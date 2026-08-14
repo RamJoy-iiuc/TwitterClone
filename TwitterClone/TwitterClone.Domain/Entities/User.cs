@@ -7,9 +7,8 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TwitterClone.Domain.Entities
 {
-    public class User
+    public class User: BaseEntity
     {
-        private Guid _id;
         private string _username;
         private string _email;
         private string _password;
@@ -23,20 +22,14 @@ namespace TwitterClone.Domain.Entities
             string email,
             string password,
             string firstName,
-            string lastName)
+            string lastName):base(Guid.NewGuid())
         {
-            _id = Guid.NewGuid();
             _username = username;
             _email = email;
             _password = password;
             _firstName = firstName;
             _lastName = lastName;
             _bio = "";
-        }
-
-        public Guid Id
-        {
-            get { return _id; }
         }
 
         public string Username
@@ -73,6 +66,18 @@ namespace TwitterClone.Domain.Entities
             _firstName = firstName;
             _lastName = lastName;
             _bio = bio;
+        }
+
+        public override string DescribeRecord()
+        {
+            var baseRecord = base.DescribeRecord();
+
+            return $"{baseRecord}, " +
+                   $"Username: {Username}, " +
+                   $"Email: {Email}, " +
+                   $"FirstName: {FirstName}, " +
+                   $"LastName: {LastName}, " +
+                   $"Bio: {Bio}";
         }
     }
 }

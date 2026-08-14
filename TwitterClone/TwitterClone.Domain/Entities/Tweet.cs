@@ -6,38 +6,16 @@ using System.Threading.Tasks;
 
 namespace TwitterClone.Domain.Entities
 {
-    //public class Tweet
-    //{
-    //        public Guid Id { get; set; }
-
-    //        public Guid UserId { get; set; }
-
-    //        public string Content { get; set; }
-
-    //        public DateTime CreatedAt { get; set; }
-
-    //}
-
-    public class Tweet
+    public class Tweet:BaseEntity
     {
-        private Guid _id;
         private Guid _userId;
         private string _content;
-        private DateTime _createdAt;
-        private DateTime? _updatedAt;
 
         // POST / CREATE
-        public Tweet(Guid userId, string content)
+        public Tweet(Guid userId, string content):base(Guid.NewGuid())
         {
-            _id = Guid.NewGuid();
             _userId = userId;
             SetContent(content);
-            _createdAt = DateTime.Now;
-        }
-
-        public Guid Id
-        {
-            get { return _id; }
         }
 
         public Guid UserId
@@ -50,23 +28,15 @@ namespace TwitterClone.Domain.Entities
             get { return _content; }
         }
 
-        public DateTime CreatedAt
-        {
-            get { return _createdAt; }
-        }
-
-        public DateTime? UpdatedAt
-        {
-            get { return _updatedAt; }
-        }
-
         // EDIT
+        //callers don't directly modify Content
+        //Domain-Driven Design (DDD) concept
         public void Edit(string content)
         {
             SetContent(content);
-            _updatedAt = DateTime.Now;
         }
 
+        //ensures that an invalid tweet cannot be created or edited.
         private void SetContent(string content)
         {
             if (string.IsNullOrWhiteSpace(content))
@@ -76,6 +46,12 @@ namespace TwitterClone.Domain.Entities
                 throw new ArgumentException("Tweet cannot exceed 280 characters.");
 
             _content = content;
+        }
+        public override string DescribeRecord()
+        {
+            var baseRecord = base.DescribeRecord();
+
+            return $"{baseRecord}, UserId: {UserId}, Content: {Content}";
         }
     }
 }
