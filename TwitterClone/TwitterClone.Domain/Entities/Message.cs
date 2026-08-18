@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 
 namespace TwitterClone.Domain.Entities
 {
-    public class Message
+    public class Message: BaseEntity
     {
-        private Guid _id;
         private Guid _senderId;
         private Guid _receiverId;
         private string _content;
         private DateTime _sentAt;
         private bool _isRead;
 
-        public Message(Guid senderId, Guid receiverId, string content)
+        public Message(Guid senderId, Guid receiverId, string content) 
+            : base(Guid.NewGuid())
         {
-            _id = Guid.NewGuid();
+            if (string.IsNullOrWhiteSpace(content))
+                throw new ArgumentException("Message cannot be empty.");
+
             _senderId = senderId;
             _receiverId = receiverId;
             _content = content;
@@ -25,10 +27,6 @@ namespace TwitterClone.Domain.Entities
             _isRead = false;
         }
 
-        public Guid Id
-        {
-            get { return _id; }
-        }
 
         public Guid SenderId
         {
@@ -59,13 +57,24 @@ namespace TwitterClone.Domain.Entities
         {
             _isRead = true;
         }
-
+        //as a user, I can edit my messages
         public void Edit(string content)
         {
             if (string.IsNullOrWhiteSpace(content))
                 throw new ArgumentException("Message cannot be empty.");
 
             _content = content;
+        }
+
+        public override string DescribeRecord()
+        {
+            var baseRecord = base.DescribeRecord();
+            return $"{baseRecord}" +
+                $", SenderId: {SenderId}" +
+                $", ReceiverId: {ReceiverId}" +
+                $", Content: {Content}" +
+                $", SentAt: {SentAt}" +
+                $", IsRead: {IsRead}";
         }
     }
 }

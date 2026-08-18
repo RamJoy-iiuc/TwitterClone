@@ -6,29 +6,20 @@ using System.Threading.Tasks;
 
 namespace TwitterClone.Domain.Entities
 {
-    public class Follow
+    public class Follow : BaseEntity
     {
-        private Guid _id;
         private Guid _followerId;
         private Guid _followingId;
-        private DateTime _createdAt;
 
-        public Follow(Guid followerId, Guid followingId)
+        public Follow(Guid followerId, Guid followingId) : base(Guid.NewGuid())
         {
-            _id = Guid.NewGuid();
             _followerId = followerId;
             _followingId = followingId;
-            _createdAt = DateTime.Now;
-        }
-
-        public Guid Id
-        {
-            get { return _id; }
         }
 
         public Guid FollowerId
         {
-            get { return _followerId; }
+            get { return _followingId; }
         }
 
         public Guid FollowingId
@@ -36,9 +27,11 @@ namespace TwitterClone.Domain.Entities
             get { return _followingId; }
         }
 
-        public DateTime CreatedAt
+        public override string DescribeRecord()
         {
-            get { return _createdAt; }
+            var baseRecord = base.DescribeRecord();
+            return $"{baseRecord}, FollowerId: {FollowerId}, FollowingId: {FollowingId}";
         }
+
     }
 }
