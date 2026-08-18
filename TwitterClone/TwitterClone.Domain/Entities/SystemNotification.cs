@@ -19,5 +19,9 @@ namespace TwitterClone.Domain.Entities
 
             return $"{baseRecord}";
         }
+        public override string GetMessage()
+        {
+            return $"{Message}";
+        }
     }
 }
