@@ -7,7 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TwitterClone.Domain.Entities
 {
-    public class User: BaseEntity
+    public class User: BaseEntity, IFollowablecs, INotifiable
     {
         private string _username;
         private string _email;
@@ -78,6 +78,34 @@ namespace TwitterClone.Domain.Entities
                    $"FirstName: {FirstName}, " +
                    $"LastName: {LastName}, " +
                    $"Bio: {Bio}";
+        }
+
+        private List<Guid> _followers=new List<Guid>();
+        private List<Guid> _incomingNotifications=new List<Guid>();
+
+        public void AddNotification(Guid notificationId)
+        {
+            if (_incomingNotifications.Contains(notificationId))
+            {
+                _incomingNotifications.Add(notificationId);
+            }
+
+        }
+
+        public void Follow(Guid userId)
+        {
+            if (_followers.Contains(userId))
+            {
+                _followers.Add(userId);
+            }
+        }
+
+        public void UnFollow(Guid userId)
+        {
+            if (_followers.Contains(userId))
+            {
+                _followers.Remove(userId);
+            }
         }
     }
 }

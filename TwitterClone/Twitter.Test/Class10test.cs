@@ -13,6 +13,8 @@ namespace Twitter.Test
         {
             var tweet = new Tweet("This is my first tweet");
             tweet.Edit("This is my second tweet");
+            ILikeable likeable = new Tweet("This is another tweet");
+            Console.WriteLine(likeable.CanbeLiked()); 
         }
     }
 }
