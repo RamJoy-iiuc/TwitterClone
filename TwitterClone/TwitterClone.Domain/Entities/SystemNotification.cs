@@ -21,7 +21,7 @@ namespace TwitterClone.Domain.Entities
         }
         public override string GetMessage()
         {
-            return $"{Message}";
+            return $"System Notification: {Message}";
         }
     }
 }
