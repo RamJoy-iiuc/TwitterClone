@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TwitterClone.Domain.Entities
 {
-    public class Tweet:BaseEntity
+    public class Tweet:BaseEntity,ILikeable
     {
         private Guid _userId;
         private string _content;
@@ -15,6 +15,11 @@ namespace TwitterClone.Domain.Entities
         public Tweet(Guid userId, string content):base(Guid.NewGuid())
         {
             _userId = userId;
+            SetContent(content);
+        }
+
+        public Tweet(string content) : base(Guid.NewGuid())
+        {
             SetContent(content);
         }
 
@@ -52,6 +57,11 @@ namespace TwitterClone.Domain.Entities
             var baseRecord = base.DescribeRecord();
 
             return $"{baseRecord}, UserId: {UserId}, Content: {Content}";
+        }
+
+        public bool CanbeLiked()
+        {
+            return true;
         }
     }
 }
