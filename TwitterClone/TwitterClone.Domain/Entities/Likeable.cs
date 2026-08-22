@@ -8,7 +8,7 @@ namespace TwitterClone.Domain.Entities
 {
     public class Likeable
     {
-        public bool CanbeLiked()
+        public bool CanBeLiked()
         {
             return true;
         }
